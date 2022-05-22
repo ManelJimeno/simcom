@@ -1,0 +1,66 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# IDE auto-generated files
+build
+.idea/
+cmake-*/
+.vs/
+.vscode/
+ipch/
+nbproject/
+nbbuild/
+nbdist/
+DerivedData/
+xcuserdata/
+~*
+*.booproj
+*.log
+*.opensdf
+*.pidb
+*.projitems
+*.sdf
+*.shproj
+*.suo
+*.svd
+*.tmp
+*.user
+*.userprefs
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+*.iml
+*.db
+*.opendb
+*.sln
+*.vcxproj*
