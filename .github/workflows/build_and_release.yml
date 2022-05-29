@@ -1,0 +1,53 @@
+name: "Build and store artifact with binaries, upload if is a release"
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "^v(?:[0-9]+\\.?)+$"
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**/README.md'
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install software in Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-tidy
+      - name: Install software in macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install llvm
+          ln -s "$(brew --prefix llvm)/bin/clang-format" "/usr/local/bin/clang-format"
+          ln -s "$(brew --prefix llvm)/bin/clang-tidy" "/usr/local/bin/clang-tidy"
+          ln -s "$(brew --prefix llvm)/bin/clang-apply-replacements" "/usr/local/bin/clang-apply-replacements"
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name : list docker installed packages (informative)
+        run: |
+          python --version
+          gcc --version
+          clang-format --version
+          clang-tidy --version
+      - name: Set up Python packages
+        run: |
+          python -m pip install --upgrade conan
+      - name: Configuring project
+        run: |
+          cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+      - name: Build project
+        run: |
+          cmake --build build
