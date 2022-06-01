@@ -42,6 +42,7 @@ include(default-parameters)
 # Add other tools support
 include(pre-commit)
 include(clang)
+include(unit-test)
 
 # Options
 option(BUILD_UNIT_TESTS "Build unit tests" ON)

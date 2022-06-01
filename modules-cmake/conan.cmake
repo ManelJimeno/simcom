@@ -69,3 +69,4 @@ find_package(
                NetSSL
                Data
                DataSQLite)
+find_package(GTest REQUIRED)

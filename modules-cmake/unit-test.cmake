@@ -1,5 +1,5 @@
 # ######################################################################################################################
-# Unit test
+# Unit test module
 #
 # Copyright (C) 2022, Manel J.
 #
@@ -14,6 +14,18 @@
 # <http://www.gnu.org/licenses/>.
 #
 # ######################################################################################################################
-set(LIBRARIES simcom GTest::gtest GTest::gmock GTest::gtest_main GTest::gmock_main)
+include(GoogleTest)
+enable_testing()
 
-add_product_test(TARGET 1 LIBRARIES ${LIBRARIES})
+# Create a unit test target
+function(add_product_test)
+    set(oneValueArgs TARGET)
+    set(multiValueArgs LIBRARIES)
+    cmake_parse_arguments(CONFIG "" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    set(test_name u_test_${CONFIG_TARGET})
+    add_executable(${test_name} ${test_name}.cpp)
+    config_target(TARGET ${test_name} LIBRARIES ${CONFIG_LIBRARIES})
+    set_target_properties(${test_name} PROPERTIES FOLDER "test")
+    gtest_discover_tests(${test_name})
+endfunction()
