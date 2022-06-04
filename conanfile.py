@@ -7,6 +7,7 @@ class CommunicationSimulator(ConanFile):
     requires = [
         "poco/1.11.2",
         "openssl/1.1.1o",
+        "gtest/cci.20210126",
     ]
     generators = "cmake_find_package", "cmake_paths", "virtualenv"
     short_paths = True

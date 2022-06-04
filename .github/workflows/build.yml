@@ -52,3 +52,8 @@ jobs:
       - name: Build project
         run: |
           cmake --build build
+      - name: Execute unitary tests in macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          source ./build/conan/activate.sh
+          cmake --build build --target test
