@@ -17,7 +17,7 @@
 set(AUTOGEN_SOURCES version.cpp.in)
 set(PUBLIC_HEADERS include/version.h include/server.h include/address.h include/client.h)
 set(SOURCES server.cpp server_impl.cpp server_connection.cpp client.cpp client_impl.cpp address.cpp)
-set(LIBRARIES Poco::Net Poco::Util Poco::Foundation Poco::XML Poco::Zip)
+set(LIBRARIES ${GLOBAL_PROJECT_DEPENDENCIES})
 
 # a shared library
 config_target(

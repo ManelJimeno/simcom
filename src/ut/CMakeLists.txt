@@ -14,3 +14,6 @@
 # <http://www.gnu.org/licenses/>.
 #
 # ######################################################################################################################
+set(LIBRARIES simcom ${GLOBAL_PROJECT_TEST_DEPENDENCIES} ${GLOBAL_PROJECT_DEPENDENCIES})
+
+add_product_test(TARGET 1 LIBRARIES ${LIBRARIES})

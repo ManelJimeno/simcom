@@ -17,7 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-2019]
+        # os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -26,6 +27,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-tidy
+          whereis gcc
       - name: Install software in macOS
         if: matrix.os == 'macos-latest'
         run: |
@@ -37,18 +39,34 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+      - name: Setup cmake 3.23
+        uses: jwlawson/actions-setup-cmake@v1.12
+        with:
+          cmake-version: '3.23.x'
       - name : list docker installed packages (informative)
         run: |
           python --version
           gcc --version
           clang-format --version
           clang-tidy --version
+          cmake --version
       - name: Set up Python packages
         run: |
           python -m pip install --upgrade conan
-      - name: Configuring project
+      - name: Build and test in Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/build/bin/lib
+          cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc
+          cmake --build build
+          cmake --build build --target test
+      - name: Build and test in macOS
+        if: matrix.os == 'macos-latest'
         run: |
           cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
-      - name: Build project
-        run: |
           cmake --build build
+          cmake --build build --target test
+      - name: Build and test in Windows
+        if: matrix.os == 'windows-2019'
+        run: |
+          .\build_simcom.bat

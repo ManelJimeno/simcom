@@ -15,6 +15,6 @@
 #
 # ######################################################################################################################
 set(SOURCES server_application.cpp server_application.h)
-set(LIBRARIES simcom Poco::Util Poco::Foundation)
+set(LIBRARIES simcom ${GLOBAL_PROJECT_DEPENDENCIES})
 
 config_target(TARGET server SOURCES ${SOURCES} LIBRARIES ${LIBRARIES})
