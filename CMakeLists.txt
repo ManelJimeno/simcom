@@ -41,6 +41,7 @@ include(clang)
 include(conan)
 include(settings)
 include(pre-commit)
+include(unit-test)
 
 # Config conan
 add_definitions("-std=c++11")
