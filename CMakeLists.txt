@@ -23,7 +23,7 @@ find_package(Python3 "3.8" QUIET REQUIRED)
 
 # Add custom modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/modules-cmake")
-include(project-version)
+include(version-tools)
 
 # Project definition
 project(
@@ -37,10 +37,11 @@ if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 endif()
 
 # Include modules
-include(clang)
-include(conan)
-include(settings)
+include(clang-tools)
+include(conan-tools)
+include(settings-tools)
 include(pre-commit)
+include(gtest-tools)
 
 # Config conan
 conan_configure(
@@ -51,9 +52,14 @@ conan_configure(
     OPTIONS
     poco:shared=True
     openssl:shared=True
+    gtest:shared=True
     FIND_PACKAGES
     Poco
     GTest)
+
+# Global dependencies
+set(GLOBAL_PROJECT_DEPENDENCIES Poco::Util Poco::Foundation Poco::XML Poco::Net)
+set(GLOBAL_PROJECT_TEST_DEPENDENCIES GTest::gtest GTest::gtest_main)
 
 # Options
 option(BUILD_UNIT_TESTS "Build unit tests" ON)
